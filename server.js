@@ -37,6 +37,22 @@ app.post("/todos/delete/:id", async (req, res) => {
   res.render("todos", { todos: result });
 });
 
+app.get("/todos/edit/:id", async (req, res) => {
+  const result = await Todo.findOne({ _id: req.params.id });
+  res.render("edit-todo", { todo: result });
+});
+
+app.post("/todos/edit/:id", async (req, res) => {
+  await Todo.updateOne(
+    { _id: req.params.id },
+    {
+      name: req.body.todo,
+    }
+  );
+  const result = await Todo.find();
+  res.render("todos", { todos: result });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
