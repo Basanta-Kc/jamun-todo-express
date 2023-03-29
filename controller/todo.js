@@ -1,4 +1,5 @@
 const Todo = require("../model/Todo");
+var jwt = require("jsonwebtoken");
 
 const getTodos = async (req, res) => {
   const todos = await Todo.find();
@@ -21,7 +22,7 @@ const updateTodo = async (req, res) => {
     },
     {
       name: req.body.name,
-      status: req.body.status
+      status: req.body.status,
     }
   );
 
@@ -31,9 +32,21 @@ const updateTodo = async (req, res) => {
 };
 
 const addTodo = async (req, res) => {
+  const token = req.body.token;
+  let user;
+  try {
+    user = jwt.verify(token, "top_notch_secret_key");
+    console.log(user);
+  } catch (error) {
+    console.log(error);
+    res.send("reject");
+    return;
+  }
+
   await Todo.create({
     name: req.body.name,
     status: req.body.status,
+    userId: user.id,
   });
   res.json({
     message: "Created Successfully.",

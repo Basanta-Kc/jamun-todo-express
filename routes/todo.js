@@ -7,8 +7,6 @@ const {
   deleteTodo,
 } = require("../controller/todo");
 
-console.log(getTodos, addTodo, updateTodo, deleteTodo);
-
 router.get("/", getTodos);
 router.delete("/:id", deleteTodo);
 router.patch("/:id", updateTodo);
