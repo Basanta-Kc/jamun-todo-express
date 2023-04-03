@@ -1,0 +1,1 @@
+person =>  gate (watchamn) => thumbprint (id card (access level)) => room entry

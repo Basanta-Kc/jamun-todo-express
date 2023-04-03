@@ -9,6 +9,18 @@ const getTodos = async (req, res) => {
 };
 
 const deleteTodo = async (req, res) => {
+  const todo = await Todo.findOne({
+    userId: req.authUser.id,
+    _id: req.params.id,
+  });
+
+  if (!todo) {
+    res.status(404).json({
+      message: "Todo not found.",
+    });
+
+    return;
+  }
   await Todo.deleteOne({ _id: req.params.id });
   res.status(200).json({
     message: "Deleted Successfully.",
@@ -16,22 +28,8 @@ const deleteTodo = async (req, res) => {
 };
 
 const updateTodo = async (req, res) => {
-  const token = req.headers.token;
-  let user;
-  try {
-    user = jwt.verify(token, "top-secret-key");
-    console.log(user);
-  } catch (err) {
-    console.log(err);
-    res.status(401).json({
-      message: "unauthorized.",
-    });
-
-    return;
-  }
-
   const todo = await Todo.findOne({
-    userId: user.id,
+    userId: req.authUser.id,
     _id: req.params.id,
   });
 
@@ -59,26 +57,10 @@ const updateTodo = async (req, res) => {
 };
 
 const addTodo = async (req, res) => {
-  const token = req.headers.token;
-
-  console.log("token is here:", token);
-  let user;
-  try {
-    user = jwt.verify(token, "top-secret-key");
-    console.log(user);
-  } catch (err) {
-    console.log(err);
-    res.status(401).json({
-      message: "unauthorized.",
-    });
-
-    return;
-  }
-
   await Todo.create({
     name: req.body.name,
     status: req.body.status,
-    userId: user.id,
+    userId: req.authUser.id,
   });
 
   res.status(201).json({
