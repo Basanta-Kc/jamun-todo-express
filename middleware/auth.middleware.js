@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
-const User = require("../model/User");
+import { verify } from "jsonwebtoken";
+import User from "../model/User.js";
 
 const protect = async (req, res, next) => {
   const token = req.headers.token;
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = verify(token, process.env.JWT_SECRET_KEY);
     req.authUser = await User.findOne({ _id: user.id });
     next();
   } catch (err) {
@@ -16,4 +16,4 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = protect;
+export default protect;

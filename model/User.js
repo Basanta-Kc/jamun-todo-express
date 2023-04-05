@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+import { model } from "mongoose";
 
-const Todo = mongoose.model("users", {
+const Todo = model("users", {
   firstName: String,
   lastName: String,
   email: String,
   password: String,
 });
 
-module.exports = Todo;
+export default Todo;

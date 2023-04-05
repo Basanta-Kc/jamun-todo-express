@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { model, Schema } from "mongoose";
 
-const Todo = mongoose.model("todos", {
+const Todo = model("todos", {
   name: String,
   status: {
     type: String,
@@ -8,10 +8,10 @@ const Todo = mongoose.model("todos", {
     default: "Todo",
   }, 
   userId: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.ObjectId,
     ref: "users",
     required: true,
   }
 });
 
-module.exports = Todo;
+export default Todo;

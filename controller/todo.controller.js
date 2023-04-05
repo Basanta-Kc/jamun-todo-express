@@ -1,14 +1,13 @@
-const Todo = require("../model/Todo");
-const jwt = require("jsonwebtoken");
+import Todo from "../model/Todo.js";
 
-const getTodos = async (req, res) => {
-  const todos = await Todo.find();
+export const getTodos = async (req, res) => {
+  const todos = await Todo.find({ userId: req.authUser.id });
   res.status(200).json({
     data: todos,
   });
 };
 
-const deleteTodo = async (req, res) => {
+export const deleteTodo = async (req, res) => {
   const todo = await Todo.findOne({
     userId: req.authUser.id,
     _id: req.params.id,
@@ -21,13 +20,13 @@ const deleteTodo = async (req, res) => {
 
     return;
   }
-  await Todo.deleteOne({ _id: req.params.id });
+  await deleteOne({ _id: req.params.id });
   res.status(200).json({
     message: "Deleted Successfully.",
   });
 };
 
-const updateTodo = async (req, res) => {
+export const updateTodo = async (req, res) => {
   const todo = await Todo.findOne({
     userId: req.authUser.id,
     _id: req.params.id,
@@ -56,7 +55,7 @@ const updateTodo = async (req, res) => {
   });
 };
 
-const addTodo = async (req, res) => {
+export const addTodo = async (req, res) => {
   await Todo.create({
     name: req.body.name,
     status: req.body.status,
@@ -66,11 +65,4 @@ const addTodo = async (req, res) => {
   res.status(201).json({
     message: "Created Successfully.",
   });
-};
-
-module.exports = {
-  addTodo,
-  deleteTodo,
-  updateTodo,
-  getTodos,
 };

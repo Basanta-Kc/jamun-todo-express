@@ -1,13 +1,13 @@
-const { celebrate, Joi } = require("celebrate");
+import { celebrate, Joi } from "celebrate";
 
-const validateAddTodo = celebrate({
+export const validateAddTodo = celebrate({
   body: {
     name: Joi.string().required(),
     status: Joi.string().valid("In Progress", "Done", "Todo").default("Todo"),
   },
 });
 
-const validateUpdateTodo = celebrate({
+export const validateUpdateTodo = celebrate({
   body: {
     name: Joi.string(),
     status: Joi.string().valid("In Progress", "Done", "Todo").default("Todo"),
@@ -17,7 +17,3 @@ const validateUpdateTodo = celebrate({
   },
 });
 
-module.exports = {
-  validateAddTodo,
-  validateUpdateTodo,
-};
