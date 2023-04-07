@@ -7,7 +7,7 @@ import authRoutes from "./routes/auth.route.js";
 import { errors } from "celebrate";
 
 dotenv.config();
-const port = 3000;
+const port = 3001;
 
 connectDb();
 

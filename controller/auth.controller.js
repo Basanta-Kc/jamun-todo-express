@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const { genSaltSync, hashSync, compareSync } = bcrypt;
 import User from "../model/User.js";
 
-export const signIn = async (req, res) => {
+export const signUp = async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
   });
@@ -29,7 +30,7 @@ export const signIn = async (req, res) => {
   });
 };
 
-export const signUp = async (req, res) => {
+export const signIn = async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
   });
@@ -49,7 +50,7 @@ export const signUp = async (req, res) => {
         email: user.email,
       },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
 
     res.json({
@@ -64,4 +65,3 @@ export const signUp = async (req, res) => {
     message: "Email or Password Is Incorrect",
   });
 };
-
