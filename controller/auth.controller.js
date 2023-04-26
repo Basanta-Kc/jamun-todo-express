@@ -65,3 +65,9 @@ export const signIn = async (req, res) => {
     message: "Email or Password Is Incorrect",
   });
 };
+
+export const getAuthUser = (req, res) => {
+  res.json({
+    data: req.authUser
+  })
+}
